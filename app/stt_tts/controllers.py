@@ -41,7 +41,7 @@ async def upload_wav(file: UploadFile = File(...)):
             )
 
         # Save the uploaded file to a temporary location
-        temp_file_path = f"./temp/{file.filename}"
+        temp_file_path = f"/tmp/{file.filename}"
         with open(temp_file_path, "wb") as buffer:
             shutil.copyfileobj(file.file, buffer)
 
@@ -61,5 +61,5 @@ async def upload_wav(file: UploadFile = File(...)):
         file.file.close()
 
 # Ensure the temp folder exists
-if not os.path.exists('./temp'):
-    os.makedirs('./temp')
+# if not os.path.exists('./temp'):
+#     os.makedirs('./temp')
