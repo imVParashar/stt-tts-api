@@ -5,6 +5,7 @@ from fastapi.responses import JSONResponse
 from app.utilities.logger import logger
 from app.auth.constants import AuthSuccessMessages
 from app.utilities import response_handler
+from app.stt_tts.services import transcribe_audio_groq, deepgram_text_to_speech
 import shutil
 import os
 
@@ -45,10 +46,15 @@ async def upload_wav(file: UploadFile = File(...)):
         with open(temp_file_path, "wb") as buffer:
             shutil.copyfileobj(file.file, buffer)
 
+        transcription_text, transcript_language = transcribe_audio_groq(temp_file_path)
+        print(transcript_language, transcription_text)
+
+        tts_filename = deepgram_text_to_speech(transcription_text)
+
         # Return the same file as response
         return FileResponse(
-            path=temp_file_path,
-            filename=file.filename,
+            path=tts_filename,
+            filename='deepgram_output.wav',
             media_type="audio/wav"
         )
 
