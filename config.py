@@ -6,7 +6,7 @@ from os import getenv
 from dotenv import load_dotenv
 
 # Loading the env file
-load_dotenv('stt-tts-api.env')
+load_dotenv('.env')
 
 LOG_LEVEL = 'INFO'
 PORT = 5000
